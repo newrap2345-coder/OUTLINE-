@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Outline — проектирование, архитектура, ландшафтный дизайн, строительство и благоустройство в Балашове и районе.">
+<title>Outline — архитектура и строительство</title>
+<style>
+:root {
+  --site-primary: #202321;
+  --site-on-primary: #ffffff;
+  --site-secondary: #d9ded8;
+  --site-on-secondary: #202321;
+  --site-background: #f4f4f0;
+  --site-on-background: #202321;
+  --site-font-body: Arial, Helvetica, sans-serif;
+  --site-font-heading: 'Arial Narrow', Arial, Helvetica, sans-serif;
+  --site-heading-scale: 1;
+  --site-spacing-scale: 1;
+  --site-radius-scale: 1;
+  --site-decoration-opacity: 1;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; font-family: var(--site-font-body); background: var(--site-background); color: var(--site-on-background); }
+#app { min-height: 100vh; width: 100%; background-color: light-dark(var(--site-background), #171a18); color: light-dark(var(--site-on-background), #f0f1ec); border-radius: 0; overflow: hidden; }
+.site-header { position: absolute; top: 0; left: 0; right: 0; z-index: 10; display: flex; align-items: center; justify-content: space-between; padding: calc(26px * var(--site-spacing-scale)) clamp(22px, 6vw, 88px); color: white; border-bottom: 1px solid rgba(255,255,255,.22); }
+.logo { display: flex; align-items: center; gap: 12px; color: inherit; text-decoration: none; font-weight: 700; letter-spacing: .22em; font-size: 20px; }
+.logo-mark { width: 30px; height: 30px; border: 1px solid currentColor; display: grid; place-items: center; font-size: 15px; font-weight: 400; letter-spacing: 0; }
+.nav { display: flex; gap: clamp(16px, 2.5vw, 38px); align-items: center; }
+.nav a { color: inherit; text-decoration: none; font-size: 11px; letter-spacing: .13em; text-transform: uppercase; opacity: .9; }
+.nav a:hover { opacity: .6; }
+.header-cta { border: 1px solid rgba(255,255,255,.7); padding: 12px 17px; }
+.hero { min-height: 760px; height: min(900px, 100vh); position: relative; display: flex; align-items: end; color: white; background: #343a36; isolation: isolate; }
+.hero:before { content: ''; position: absolute; inset: 0; z-index: -2; background: linear-gradient(90deg, rgba(11,15,13,.78), rgba(11,15,13,.18)), linear-gradient(0deg, rgba(11,15,13,.5), transparent 55%), url('https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=2200&q=85') center/cover; }
+.hero:after { content: ''; position: absolute; inset: 0; z-index: -1; opacity: calc(.12 * var(--site-decoration-opacity)); background: repeating-linear-gradient(90deg, transparent 0 119px, rgba(255,255,255,.28) 120px); }
+.hero-content { padding: 170px clamp(24px, 9vw, 140px) 88px; max-width: 1100px; }
+.eyebrow { font-size: 10px; letter-spacing: .28em; text-transform: uppercase; margin: 0 0 24px; }
+h1,h2,h3,p { margin-top: 0; }
+h1 { font-family: var(--site-font-heading); font-weight: 400; font-size: clamp(56px, 8.4vw, 118px); line-height: .91; letter-spacing: -.055em; max-width: 900px; margin-bottom: 30px; }
+.hero-copy { font-size: clamp(15px, 1.5vw, 19px); line-height: 1.65; max-width: 500px; color: rgba(255,255,255,.82); }
+.hero-bottom { display: flex; align-items: center; gap: 24px; margin-top: 38px; flex-wrap: wrap; }
+.button { display: inline-flex; align-items: center; justify-content: center; gap: 18px; padding: 17px 22px; background: var(--site-primary); color: var(--site-on-primary); border: 1px solid var(--site-primary); text-decoration: none; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; cursor: pointer; transition: .2s; }
+.button:hover { background: transparent; color: inherit; }
+.button.light { background: white; border-color: white; color: #202321; }
+.button.light:hover { background: transparent; color: white; }
+.text-link { color: inherit; text-decoration: none; font-size: 12px; border-bottom: 1px solid currentColor; padding-bottom: 6px; }
+.section { padding: clamp(76px, 10vw, 140px) clamp
+
+
+
+24px, 9vw, 140px); }
+.section-head { display: flex; justify-content: space-between; align-items: end; gap: 30px; margin-bottom: 58px; }
+.kicker { font-size: 10px; text-transform: uppercase; letter-spacing: .24em; color: #777e77; margin-bottom: 18px; }
+h2 { font-family: var(--site-font-heading); font-size: calc(clamp(38px, 5.2vw, 68px) * var(--site-heading-scale)); line-height: .98; letter-spacing: -.045em; font-weight: 400; margin-bottom: 0; max-width: 720px; }
+.section-intro { max-width: 330px; color: #747a74; line-height: 1.7; font-size: 14px; margin-bottom: 4px; }
+.services { display: grid; grid-template-columns: repeat(3,1fr); border-top: 1px solid #c9cec7; }
+.service { min-height: 280px; padding: 30px 28px 28px 0; border-bottom: 1px solid #c9cec7; position: relative; }
+.service:not(:nth-child(3n)) { border-right: 1px solid #c9cec7; }
+.service:nth-child(3n+2), .service:nth-child(3n) { padding-left: 28px; }
+.service-num { color: #8b918a; font-size: 11px; letter-spacing: .15em; }
+.service h3 { font-family: var(--site-font-heading); font-weight: 400; font-size: 29px; margin: 56px 0 14px; letter-spacing: -.03em; }
+.service p { color: #737a73; font-size: 13px; line-height: 1.7; max-width: 300px; margin-bottom: 0; }
+.service-arrow { position: absolute; right: 26px; top: 28px; font-size: 20px; }
+.dark-band { background: var(--site-primary); color: white; display: grid; grid-template-columns: 1.05fr .95fr; min-height: 560px; }
+.dark-image { min-height: 450px; background: url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1300&q=85') center/cover; }
+.dark-copy { padding: clamp(50px, 8vw, 110px); display: flex; flex-direction: column; justify-content: center; }
+.dark-copy .kicker { color: #aeb5ad; }
+.dark-copy h2 { margin-bottom: 26px; }
+.dark-copy p { color: #c1c7c0; line-height: 1.8; font-size: 14px; max-width: 440px; }
+.process { background: #e7e9e3; }
+.steps { display: grid; grid-template-columns: repeat(4,1fr); border-top: 1px solid #c5cbc3; }
+.step { padding: 26px 24px 0 0; min-height: 180px; }
+.step:not(:last-child) { border-right: 1px solid #c5cbc3; }
+.step:not(:first-child) { padding-left: 24px; }
+.step b { font-size: 11px; color: #7b837a; font-weight: 400; letter-spacing: .16em; }
+.step h3 { font-size: 20px; font-weight: 400; margin: 35px 0 10px; }
+.step p { color: #747b73; font-size: 12px; line-height: 1.65; max-width: 230px; }
+.portfolio-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 22px; }
+.project { position: relative; min-height: 430px; overflow: hidden; background: #d5d9d2; }
+.project img { width: 100%; height: 100%; min-height: 430px; object-fit: cover; display: block; transition: transform .6s; }
+.project:hover img { transform: scale(1.035); }
+.project-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 70px 28px 25px; color: white; background: linear-gradient(transparent,rgba(0,0,0,.65)); }
+.project-info small { letter-spacing: .18em; text-transform: uppercase; font-size: 9px; }
+.project-info h3 { font-size: 25px; font-weight: 400; margin: 10px 0 0; }
+.note { margin-top: 18px; color: #858b84; font-size: 11px; line-height: 1.6; }
+.contact { background: #dce1da; display: grid; grid-template-columns: 1fr 1fr; gap: 8vw; }
+.contact-copy p { max-width: 400px; color: #70776f; line-height: 1.75; margin-top: 25px; }
+.contact-meta { margin-top: 50px; display: flex; gap: 35px; flex-wrap: wrap; }
+.contact-meta span { display: block; font-size: 9px; letter-spacing: .18em; color: #7d857c; text-transform: uppercase; margin-bottom: 9px; }
+.contact-meta strong { font-weight: 400; font-size: 14px; }
+.form { display: grid; gap: 18px; align-content: center; }
+.form label { display: block; font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: #737a72; }
+.form input,.form textarea,.form select { width: 100%; margin-top: 10px; padding: 15px 0; border: 0; border-bottom: 1px solid #aeb6ac; background: transparent; color: #202321; font: inherit; outline: none; border-radius: 0; }
+.form textarea { min-height: 80px; resize: vertical; }
+.form input
+
+
+:focus,.form textarea:focus,.form select:focus { border-color: #202321; }
+.form .button { justify-self: start; margin-top: 10px; }
+.form-status { font-size: 12px; line-height: 1.5; color: #4e6651; min-height: 18px; }
+footer { padding: 28px clamp(24px, 9vw, 140px); background: #202321; color: white; display: flex; justify-content: space-between; gap: 20px; align-items: center; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; }
+footer span:last-child { color: #9da59c; }
+max-width: 800px {
+ .nav a:not(.header-cta) { display: none; }
+ .hero { min-height: 720px; height: 90vh; }
+ .hero-content { padding-bottom: 68px; }
+ .section-head { display: block; }
+ .section-intro { margin-top: 25px; }
+ .services { grid-template-columns: repeat(2,1fr); }
+ .service:not(:nth-child(3n)) { border-right: 0; }
+ .service:nth-child(3n+2),.service:nth-child(3n) { padding-left: 0; }
+ .service:nth-child(odd) { border-right: 1px solid #c9cec7; }
+ .service:nth-child(even) { padding-left: 22px; }
+ .dark-band { grid-template-columns: 1fr; }
+ .dark-image { min-height: 350px; }
+ .steps { grid-template-columns: repeat(2,1fr); }
+ .step:nth-child(2) { border-right: 0; }
+ .step:nth-child(3) { padding-left: 0; }
+ .portfolio-grid { grid-template-columns: 1fr; }
+ .project,.project img { min-height: 360px; }
+ .contact { grid-template-columns: 1fr; }
+}
+max-width: 480px {
+ .site-header { padding: 20px 20px; }
+ .header-cta { padding: 10px 11px; font-size: 9px !important; }
+ .hero-content { padding-left: 22px; padding-right: 22px; }
+ h1 { font-size: 58px; }
+ .section { padding-left: 22px; padding-right: 22px; }
+ .services { grid-template-columns: 1fr; }
+ .service,.service:nth-child(even) { min-height: 225px; padding: 25px 0; border-right: 0; }
+ .service h3 { margin-top: 35px; }
+ .steps { grid-template-columns: 1fr; }
+ .step,.step:not(:first-child) { border-right: 0; padding: 22px 0; min-height: auto; border-bottom: 1px solid #c5cbc3; }
+ .step h3 { margin-top: 18px; }
+ footer { flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+<div id="app">
+<header class="site-header">
+  <a class="logo" href="#top" aria-label="Outline — на главную"><span class="logo-mark">O</span> OUTLINE</a>
+  <nav class="nav" aria-label="Основная навигация">
+    <a href="#services">Услуги</a><a href="#approach">Подход</a><a href="#projects">Проекты</a><a class="header-cta" href="tel:+79966266648">Позвонить ↗</a>
+  </nav>
+</header>
+<main id="top">
+<section class="hero">
+  <div class="hero-content">
+    <p class="eyebrow">Архитектура · Дизайн · Строительство</p>
+    <h1>Создаём
+пространство
+для жизни.</h1>
+    <p class="hero-copy">От первой идеи и продуманного проекта до строительства и благоустройства. Целостный подход к дому и территории.</p>
+    <div class="hero-bottom"><a class="button light" href="#contact">Обсудить задачу <span>↗</span></a><a class="text-link" href="#services">Изучить направления</a></div>
+  </div>
+</section>
+<section class="section" id="services">
+  <div class="section-head"><div><p class="kicker">01 / Направления</p><h2>Всё для вашего
+будущего пространства.</h2></div><p class="section-intro">Соединяем архитектурную мысль, функциональный дизайн и качественное исполнение — в одном понятном процессе.</p></div>
+  <div class="services">
+    <article class="service"><span class="service-num">01 — ARCHITECTURE</span><span class="service-arrow">↗</span><h3>Проектирование домов</h3><p>Архитектурные решения, планировки и концепции частных домов с учётом участка и образа жизни.</p></article>
+    <article class="service"><span class="service-num">02 — LANDSCAPE</span><span class="service-arrow">↗</span><h3>Ландшафтный дизайн</h3><p>Организация участка, зонирование, озеленение и визуальная концепция территории.</p></article>
+    <article class="service"><span class="service-num">03 — CONSTRUCTION</span><span class="service-arrow">↗</span><h3>Строительство</h3><p>Реализация строительных задач, возведение и реконструкция объектов, общестроительные работы.</p></article>
+    <article class="service"><span class="service-num">04 —
+
+
+
+
+INTERIOR</span><span class="service-arrow">↗</span><h3>Дизайн интерьера</h3><p>Продуманные пространства внутри дома: эстетика, удобство и логика каждого помещения.</p></article>
+    <article class="service"><span class="service-num">05 — IMPROVEMENT</span><span class="service-arrow">↗</span><h3>Благоустройство</h3><p>Дорожки, площадки, зоны отдыха, ограждения и другие элементы комфортной территории.</p></article>
+    <article class="service"><span class="service-num">06 — RENOVATION</span><span class="service-arrow">↗</span><h3>Ремонт и отделка</h3><p>Внутренние и наружные работы, обновление помещений и комплексная отделка.</p></article>
+  </div>
+</section>
+<section class="dark-band" id="approach">
+  <div class="dark-image" role="img" aria-label="Современный интерьер частного дома"></div>
+  <div class="dark-copy"><p class="kicker">02 / Наш подход</p><h2>От идеи
+до результата.</h2><p>Хороший проект начинается с понимания ваших задач. Мы помогаем сформировать концепцию, продумать детали и последовательно перейти к реализации.</p><p>Один контакт на старте. Понятные этапы. Внимание к тому, как пространство будет работать в реальной жизни.</p><a class="text-link" href="#contact" style="align-self:flex-start;margin-top:20px">Начать разговор ↗</a></div>
+</section>
+<section class="section process">
+  <div class="section-head"><div><p class="kicker">03 / Этапы работы</p><h2>Понятный путь
+к вашему проекту.</h2></div><p class="section-intro">Каждый объект индивидуален, но основа работы остаётся прозрачной — от знакомства до воплощения.</p></div>
+  <div class="steps">
+    <article class="step"><b>01 / ЗНАКОМСТВО</b><h3>Обсуждаем задачу</h3><p>Узнаём ваши пожелания, бюджет, сроки и особенности участка или объекта.</p></article>
+    <article class="step"><b>02 / КОНЦЕПЦИЯ</b><h3>Формируем решение</h3><p>Определяем направление, состав работ и предварительную структуру проекта.</p></article>
+    <article class="step"><b>03 / ПРОЕКТ</b><h3>Прорабатываем детали</h3><p>Готовим согласованные решения и планируем дальнейшую реализацию.</p></article>
+    <article class="step"><b>04 / РЕАЛИЗАЦИЯ</b><h3>Переходим к делу</h3><p>Организуем выполнение работ и движение к согласованному результату.</p></article>
+  </div>
+</section>
+<section class="section" id="projects">
+  <div class="section-head"><div><p class="kicker">04 / Визуальное направление</p><h2>Идеи, которые
+становятся местом.</h2></div><p class="section-intro">Несколько образов, отражающих эстетику Outline. Здесь постепенно появятся реализованные объекты и авторские проекты.</p></div>
+  <div class="portfolio-grid">
+    <article class="project"><img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1300&q=85" alt="Современный частный дом с лаконичной архитектурой"><div class="project-info"><small>ARCHITECTURE / CONCEPT</small><h3>Современная частная архитектура</h3></div></article>
+    <article class="project"><img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1000&q=85" alt="Современное жилое пространство"><div class="project-info"><small>SPACE / DESIGN</small><h3>Пространство с характером</h3></div></article>
+  </div>
+  <article class="project" style="margin-top:22px;min-height:520px"><img src="sandbox:/mnt/data/outline_gallery.jpg" alt="Фотографии этапов строительства частного дома: кладка стен из блоков и устройство деревянной стропильной системы"><div class="project-info"><small>REALIZED PROJECT / CONSTRUCTION</small><h3>Строительство частного дома — стены и кровельная система</h3></div></article>
+  <p class="note">Фотографии строительства предоставлены командой Outline. Показан один объект на разных этапах: возведение стен из блоков и устройство деревянной конструкции крыши. Другие изображения выше — визуальные референсы.</p>
+</section>
+<section class="section contact" id="contact">
+  <div class="contact-copy"><p class="kicker">05 / Контакты</p><h2>Расскажите
+о своей идее.</h2><p>Планируете строительство дома, хотите преобразить участок или продумать проект? Позвоните нам или напишите в сообщения сообще
+
+
+ства — обсудим возможные решения.</p><div class="contact-meta"><div><span>Телефон</span><strong><a href="tel:+79966266648" style="color:inherit;text-decoration:none">8 (996) 626-66-48</a></strong></div><div><span>ВКонтакте</span><strong><a href="https://vk.ru/club242760253" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:none">Написать в сообщество ↗</a></strong></div><div><span>География</span><strong>Балашов и район</strong></div></div></div>
+  <form class="form" id="leadForm">
+    <label>Как к вам обращаться<input name="name" placeholder="Ваше имя" required></label>
+    <label>Телефон или мессенджер<input name="contact" placeholder="Как с вами связаться" required></label>
+    <label>Что вас интересует?<select name="service"><option>Проектирование дома</option><option>Ландшафтный дизайн</option><option>Строительство</option><option>Дизайн интерьера</option><option>Благоустройство</option><option>Ремонт и отделка</option><option>Другое</option></select></label>
+    <label>Коротко о задаче<textarea name="details" placeholder="Расскажите, что планируете"></textarea></label>
+    <button class="button" type="submit">Подготовить заявку <span>↗</span></button>
+    <div class="form-status" id="formStatus" aria-live="polite">Форма пока демонстрационная. Чтобы связаться с нами, позвоните <a href="tel:+79966266648">8 (996) 626-66-48</a> или напишите <a href="https://vk.ru/club242760253" target="_blank" rel="noopener noreferrer">ВКонтакте</a>.</div>
+  </form>
+</section>
+</main>
+<footer><span>© OUTLINE — Архитектура и строительство</span><span>Балашов · Саратовская область · <a href="tel:+79966266648" style="color:inherit">8 (996) 626-66-48</a> · <a href="https://vk.ru/club242760253" target="_blank" rel="noopener noreferrer" style="color:inherit">ВКонтакте ↗</a></span></footer>
+</div>
+<script>
+document.getElementById('leadForm').addEventListener('submit', function(event) {
+  event.preventDefault();
+  const data = new FormData(this);
+  const message = `Заявка для OUTLINE\nИмя: ${data.get('name')}\nКонтакт: ${data.get('contact')}\nНаправление: ${data.get('service')}\nЗадача: ${data.get('details') || 'Не указана'}`;
+  const status = document.getElementById('formStatus');
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(message).then(() => { status.textContent = 'Текст заявки скопирован. Сейчас форма не отправляет данные на сервер — отправьте скопированный текст удобным способом.'; }).catch(() => { status.textContent = 'Форма заполнена, но отправка пока не подключена. Свяжитесь с нами удобным способом.'; });
+  } else {
+    status.textContent = 'Форма заполнена, но отправка пока не подключена. Свяжитесь с нами удобным способом.';
+  }
+});
+</script>
+</body>
+</html>(
